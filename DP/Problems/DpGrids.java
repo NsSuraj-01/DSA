@@ -178,6 +178,46 @@ public class DpGrids {
         return pathSumRec(grid, n-1, m-1);
     }
 
+
+
+
+    public static int trPath_helper(int r, int c, int n, int mat[][], int dp[][]) {
+        if(r == n) return 0;
+        if(dp[r][c] != -1) {
+            return dp[r][c];
+        }
+        
+        int val = Math.min(trPath_helper(r+1, c, n, mat, dp), trPath_helper(r+1, c+1, n, mat, dp));
+
+        return dp[r][c] = mat[r][c] + val;
+    }
+
+    public static int trPathTab(int tr[][], int n) {
+        int dp[][] = new int[n][n];
+        for(int j=0; j<tr[n-1].length; j++) {
+            dp[n-1][j] = tr[n-1][j];
+        }
+
+        for(int i=n-2; i>=0; i--) {
+            for(int j=0; j<=i;  j++) {
+                dp[i][j] = tr[i][j] + Math.min(dp[i+1][j], dp[i+1][j+1]);
+            }
+        }
+        return dp[0][0];
+    }
+
+    // min path sum in triangular matrix
+    public static int trPath(int[][] triangle, int n) {
+        
+        int dp[][] = new int[n][n];
+        for(int row[] : dp) {
+            Arrays.fill(row, -1);
+        }
+
+        return trPath_helper(0,0, n, triangle, dp);
+    }
+
+    
     public static void main(String[] args) {
         // int ac[][] = { {1,2,5}, {3,1,1}, {3,3,3} };
         // ninjasTraining(ac); 
